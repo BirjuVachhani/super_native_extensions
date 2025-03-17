@@ -135,12 +135,12 @@ class ClipboardEvents {
     }
   }
 
-  static final _pasteEventListeners =
-      <void Function(ClipboardReadEvent event)>[];
-  static final _copyEventListeners =
-      <void Function(ClipboardWriteEvent event)>[];
-  static final _cutEventListeners =
-      <void Function(ClipboardWriteEvent event)>[];
+  final _pasteEventListeners =
+      <void Function(ClipboardReadEvent event)>{};
+  final _copyEventListeners =
+      <void Function(ClipboardWriteEvent event)>{};
+  final _cutEventListeners =
+      <void Function(ClipboardWriteEvent event)>{};
 }
 
 class TextEvents {
