@@ -3,6 +3,164 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`super_clipboard` - `v0.10.0-dev.2`](#super_clipboard---v0100-dev2)
+ - [`super_drag_and_drop` - `v0.10.0-dev.2`](#super_drag_and_drop---v0100-dev2)
+ - [`super_context_menu` - `v0.10.0-dev.2`](#super_context_menu---v0100-dev2)
+ - [`super_native_extensions` - `v0.10.0-dev.2`](#super_native_extensions---v0100-dev2)
+ - [`super_hot_key` - `v0.10.0-dev.2`](#super_hot_key---v0100-dev2)
+ - [`super_keyboard_layout` - `v0.10.0-dev.2`](#super_keyboard_layout---v0100-dev2)
+
+---
+
+#### `super_clipboard` - `v0.10.0-dev.2`
+
+ - Bump "super_clipboard" to `0.10.0-dev.2`.
+
+#### `super_drag_and_drop` - `v0.10.0-dev.2`
+
+ - Bump "super_drag_and_drop" to `0.10.0-dev.2`.
+
+#### `super_context_menu` - `v0.10.0-dev.2`
+
+ - Bump "super_context_menu" to `0.10.0-dev.2`.
+
+#### `super_native_extensions` - `v0.10.0-dev.2`
+
+ - Bump "super_native_extensions" to `0.10.0-dev.2`.
+
+#### `super_hot_key` - `v0.10.0-dev.2`
+
+ - Bump "super_hot_key" to `0.10.0-dev.2`.
+
+#### `super_keyboard_layout` - `v0.10.0-dev.2`
+
+ - Bump "super_keyboard_layout" to `0.10.0-dev.2`.
+
+
+## 2026-08-07
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`super_clipboard` - `v0.10.0-dev.1`](#super_clipboard---v0100-dev1)
+ - [`super_drag_and_drop` - `v0.10.0-dev.1`](#super_drag_and_drop---v0100-dev1)
+ - [`super_context_menu` - `v0.10.0-dev.1`](#super_context_menu---v0100-dev1)
+ - [`super_native_extensions` - `v0.10.0-dev.1`](#super_native_extensions---v0100-dev1)
+ - [`super_hot_key` - `v0.10.0-dev.1`](#super_hot_key---v0100-dev1)
+ - [`super_keyboard_layout` - `v0.10.0-dev.1`](#super_keyboard_layout---v0100-dev1)
+
+---
+
+#### `super_clipboard` - `v0.10.0-dev.1`
+
+#### `super_drag_and_drop` - `v0.10.0-dev.1`
+
+#### `super_context_menu` - `v0.10.0-dev.1`
+
+#### `super_native_extensions` - `v0.10.0-dev.1`
+
+ - Bump "super_native_extensions" to `0.10.0-dev.1`.
+
+#### `super_hot_key` - `v0.10.0-dev.1`
+
+ - Bump "super_hot_key" to `0.10.0-dev.1`.
+
+#### `super_keyboard_layout` - `v0.10.0-dev.1`
+
+
+## 2025-06-11
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`super_clipboard` - `v0.9.1`](#super_clipboard---v091)
+ - [`super_drag_and_drop` - `v0.9.1`](#super_drag_and_drop---v091)
+ - [`super_context_menu` - `v0.9.1`](#super_context_menu---v091)
+ - [`super_native_extensions` - `v0.9.1`](#super_native_extensions---v091)
+ - [`super_hot_key` - `v0.9.1`](#super_hot_key---v091)
+ - [`super_keyboard_layout` - `v0.9.1`](#super_keyboard_layout---v091)
+
+---
+
+#### `super_clipboard` - `v0.9.1`
+
+#### `super_drag_and_drop` - `v0.9.1`
+
+#### `super_context_menu` - `v0.9.1`
+
+#### `super_native_extensions` - `v0.9.1`
+
+#### `super_hot_key` - `v0.9.1`
+
+ - Bump "super_hot_key" to `0.9.1`.
+
+#### `super_keyboard_layout` - `v0.9.1`
+
+
+## 2025-06-08
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`super_clipboard` - `v0.9.0`](#super_clipboard---v090)
+ - [`super_drag_and_drop` - `v0.9.0`](#super_drag_and_drop---v090)
+ - [`super_context_menu` - `v0.9.0`](#super_context_menu---v090)
+ - [`super_native_extensions` - `v0.9.0`](#super_native_extensions---v090)
+ - [`super_hot_key` - `v0.9.0`](#super_hot_key---v090)
+ - [`super_keyboard_layout` - `v0.9.0`](#super_keyboard_layout---v090)
+
+---
+
+#### `super_clipboard` - `v0.9.0`
+
+#### `super_drag_and_drop` - `v0.9.0`
+
+#### `super_context_menu` - `v0.9.0`
+
+#### `super_native_extensions` - `v0.9.0`
+
+ - **FEAT**: add support for the maximum page size of 16 KB for Android (#521).
+
+#### `super_hot_key` - `v0.9.0`
+
+ - Bump "super_hot_key" to `0.9.0`.
+
+#### `super_keyboard_layout` - `v0.9.0`
+
+
 ## 2024-12-29
 
 ### Changes

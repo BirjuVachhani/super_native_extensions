@@ -1,3 +1,17 @@
+## 0.10.0-dev.2
+
+ - Bump "super_native_extensions" to `0.10.0-dev.2`.
+
+## 0.10.0-dev.1
+
+ - Bump "super_native_extensions" to `0.10.0-dev.1`.
+
+## 0.9.1
+
+## 0.9.0
+
+ - **FEAT**: add support for the maximum page size of 16 KB for Android (#521).
+
 ## 0.9.0-dev.6
 
  - **FIX**: crash on android with merged platform and UI threads (#483).

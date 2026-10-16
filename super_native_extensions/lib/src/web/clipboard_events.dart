@@ -1,5 +1,5 @@
 import 'dart:js_interop';
-
+import 'dart:js_interop_unsafe';
 import 'package:web/web.dart' as web;
 
 import '../clipboard_events.dart';
@@ -61,7 +61,8 @@ class _WriteEvent extends ClipboardWriteEvent {
           final data = repr.dataProvider();
           if (data is Future) {
             throw UnsupportedError(
-                'HTML Clipboard event does not support asynchronous data.');
+              'HTML Clipboard event does not support asynchronous data.',
+            );
           }
           _setData(repr.format, data);
         }
@@ -73,10 +74,30 @@ class _WriteEvent extends ClipboardWriteEvent {
 }
 
 class ClipboardEventsImpl extends ClipboardEvents {
+  static const listenersProperty =
+      "super_native_extensions_clipboard_events_listeners";
+
   ClipboardEventsImpl() {
-    web.window.addEventListener('paste', _onPaste.toJS);
-    web.window.addEventListener('copy', _onCopy.toJS);
-    web.window.addEventListener('cut', _onCut.toJS);
+    // Have no access to `registerHotRestartListener` so this needs to be done manually on startup.
+    {
+      final listeners =
+          web.window.getProperty(listenersProperty.toJS)
+              as JSArray<JSListener>?;
+      if (listeners != null) {
+        for (final listener in listeners.toDart) {
+          web.window.removeEventListener(listener.type, listener.callback);
+        }
+      }
+    }
+    final listeners = [
+      JSListener(type: 'paste', callback: _onPaste.toJS),
+      JSListener(type: 'copy', callback: _onCopy.toJS),
+      JSListener(type: 'cut', callback: _onCut.toJS),
+    ];
+    for (final listener in listeners) {
+      web.window.addEventListener(listener.type, listener.callback);
+    }
+    web.window.setProperty(listenersProperty.toJS, listeners.toJS);
   }
 
   @override
@@ -88,14 +109,18 @@ class ClipboardEventsImpl extends ClipboardEvents {
     if (itemList == null) {
       return;
     }
-    final translated =
-        translateDataTransfer(clipboardEvent.clipboardData!, allowReader: true);
+    final translated = translateDataTransfer(
+      clipboardEvent.clipboardData!,
+      allowReader: true,
+    );
     final readerHandle = $DataReaderHandle(
-      translated.map(
-        (e) {
-          return e.$2 as $DataReaderItemHandle;
-        },
-      ).toList(growable: false),
+      translated
+          .map(
+            (e) {
+              return e.$2 as $DataReaderItemHandle;
+            },
+          )
+          .toList(growable: false),
     );
     final reader = DataReader(handle: readerHandle as DataReaderHandle);
     final readEvent = _PasteEvent(reader: reader, event: event);
@@ -126,37 +151,43 @@ class ClipboardEventsImpl extends ClipboardEvents {
 
   @override
   void registerPasteEventListener(
-      void Function(ClipboardReadEvent p1) listener) {
+    void Function(ClipboardReadEvent p1) listener,
+  ) {
     _pasteEventListeners.add(listener);
   }
 
   @override
   void unregisterPasteEventListener(
-      void Function(ClipboardReadEvent p1) listener) {
+    void Function(ClipboardReadEvent p1) listener,
+  ) {
     _pasteEventListeners.remove(listener);
   }
 
   @override
   void registerCopyEventListener(
-      void Function(ClipboardWriteEvent p1) listener) {
+    void Function(ClipboardWriteEvent p1) listener,
+  ) {
     _copyEventListeners.add(listener);
   }
 
   @override
   void unregisterCopyEventListener(
-      void Function(ClipboardWriteEvent p1) listener) {
+    void Function(ClipboardWriteEvent p1) listener,
+  ) {
     _copyEventListeners.remove(listener);
   }
 
   @override
   void registerCutEventListener(
-      void Function(ClipboardWriteEvent p1) listener) {
+    void Function(ClipboardWriteEvent p1) listener,
+  ) {
     _cutEventListeners.add(listener);
   }
 
   @override
   void unregisterCutEventListener(
-      void Function(ClipboardWriteEvent p1) listener) {
+    void Function(ClipboardWriteEvent p1) listener,
+  ) {
     _cutEventListeners.remove(listener);
   }
 

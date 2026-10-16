@@ -29,10 +29,9 @@ apply_standard_settings(${PLUGIN_NAME})
 # exported should be explicitly exported with the FLUTTER_PLUGIN_EXPORT macro.
 set_target_properties(${PLUGIN_NAME} PROPERTIES
   CXX_VISIBILITY_PRESET hidden
-  # Ensure ld uses to executable RPATH when loading
-  # libsuper_native_extensions.so
-  # https://github.com/superlistapp/super_native_extensions/issues/122
+  BUILD_RPATH "$ORIGIN"
   BUILD_RPATH_USE_ORIGIN ON
+  INSTALL_RPATH "$ORIGIN"
 )
 
 target_compile_definitions(${PLUGIN_NAME} PRIVATE FLUTTER_PLUGIN_IMPL)
@@ -44,13 +43,9 @@ target_include_directories(${PLUGIN_NAME} INTERFACE
 target_link_libraries(${PLUGIN_NAME} PRIVATE flutter)
 target_link_libraries(${PLUGIN_NAME} PRIVATE PkgConfig::GTK)
 
-include("../cargokit/cmake/cargokit.cmake")
-apply_cargokit(${PLUGIN_NAME} ../rust super_native_extensions "")
-
 # List of absolute paths to libraries that should be bundled with the plugin.
 # This list could contain prebuilt libraries, or libraries created by an
 # external build triggered from this build file.
 set(super_native_extensions_bundled_libraries
-  "${${PLUGIN_NAME}_cargokit_lib}"
   PARENT_SCOPE
 )

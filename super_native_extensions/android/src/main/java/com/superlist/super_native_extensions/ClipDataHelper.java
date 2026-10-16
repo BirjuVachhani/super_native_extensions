@@ -89,20 +89,24 @@ public final class ClipDataHelper {
             res.add(typeTextPlain);
         }
         if (item.getUri() != null) {
-            String[] types = context.getContentResolver().getStreamTypes(item.getUri(), "*/*");
-            if (types != null) {
-                for (String type : types) {
-                    if (!res.contains(type)) {
+            try {
+                String[] types = context.getContentResolver().getStreamTypes(item.getUri(), "*/*");
+                if (types != null) {
+                    for (String type : types) {
+                        if (!res.contains(type)) {
+                            res.add(type);
+                        }
+                    }
+                } else {
+                    String type = context.getContentResolver().getType(item.getUri());
+                    if (type != null) {
                         res.add(type);
+                    } else {
+                        res.add(typeUriList);
                     }
                 }
-            } else {
-                String type = context.getContentResolver().getType(item.getUri());
-                if (type != null) {
-                    res.add(type);
-                } else {
-                    res.add(typeUriList);
-                }
+            } catch (Exception e) {
+                // Prevent a full app crash.
             }
         }
         return res.toArray(new String[0]);
