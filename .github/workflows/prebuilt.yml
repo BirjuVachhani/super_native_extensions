@@ -10,7 +10,7 @@ name: Prebuilt Binaries
 
 # Builds the native library for every target and publishes it as a GitHub
 # release tagged with the hash of the Rust sources. Afterwards run
-# `tool/prebuilt.dart sync` locally and commit hook/prebuilt.g.dart.
+# `tool/prebuilt.dart sync` locally and commit lib/src/hook/prebuilt.g.dart.
 
 permissions:
   contents: read

@@ -1,7 +1,6 @@
 import 'package:hooks/hooks.dart';
-
-import 'prebuilt.dart';
-import 'prebuilt.g.dart';
+import 'package:super_native_extensions/src/hook/prebuilt.dart';
+import 'package:super_native_extensions/src/hook/prebuilt.g.dart';
 
 const library = PrebuiltLibrary(
   package: 'super_native_extensions',

@@ -164,8 +164,8 @@ packages:
     dependency: transitive
     description:
       path: "engine_context/dart"
-      ref: "130ec23e7813f6fcc9ded53837cf3f9e74c28606"
-      resolved-ref: "130ec23e7813f6fcc9ded53837cf3f9e74c28606"
+      ref: "9f1cf17acd050d975b3f51a8bdfda7ee85228215"
+      resolved-ref: "9f1cf17acd050d975b3f51a8bdfda7ee85228215"
       url: "https://github.com/BirjuVachhani/irondash.git"
     source: git
     version: "0.6.0-dev.1"

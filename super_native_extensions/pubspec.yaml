@@ -28,7 +28,7 @@ dependencies:
     git:
       url: https://github.com/BirjuVachhani/irondash.git
       path: engine_context/dart
-      ref: 130ec23e7813f6fcc9ded53837cf3f9e74c28606
+      ref: 9f1cf17acd050d975b3f51a8bdfda7ee85228215
   irondash_message_channel: ^0.8.0-dev.0
   device_info_plus: ">=10.0.1 <14.0.0"
   pixel_snap: ^0.1.2

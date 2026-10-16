@@ -3,6 +3,7 @@ on:
     branches: [main]
     paths:
       - super_native_extensions/hook/**
+      - super_native_extensions/lib/src/hook/**
       - .github/workflows/prebuilt_smoke.yml
   workflow_dispatch:
 
