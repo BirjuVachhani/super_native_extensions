@@ -60,10 +60,10 @@ class PrebuiltLibrary {
   String assetFileName(String triple) => '$triple-${libFileName(triple)}';
 
   Uri downloadUri(String crateHash, String triple) => Uri.https(
-        'github.com',
-        '/$repo/releases/download/${releaseTag(crateHash)}/'
-            '${assetFileName(triple)}',
-      );
+    'github.com',
+    '/$repo/releases/download/${releaseTag(crateHash)}/'
+        '${assetFileName(triple)}',
+  );
 
   Future<void> run(
     BuildInput input,
@@ -74,8 +74,10 @@ class PrebuiltLibrary {
     if (!input.config.buildCodeAssets) return;
 
     if (input.userDefines['build_from_source'] == true) {
-      await RustBuilder(assetName: assetName, cratePath: cratePath)
-          .run(input: input, output: output);
+      await RustBuilder(
+        assetName: assetName,
+        cratePath: cratePath,
+      ).run(input: input, output: output);
       return;
     }
 
@@ -103,8 +105,11 @@ class PrebuiltLibrary {
     }
 
     // Keyed by checksum so concurrent builds and stale caches never collide.
-    final file = File.fromUri(input.outputDirectoryShared
-        .resolve('${expected.substring(0, 16)}/${libFileName(triple)}'));
+    final file = File.fromUri(
+      input.outputDirectoryShared.resolve(
+        '${expected.substring(0, 16)}/${libFileName(triple)}',
+      ),
+    );
     if (!file.existsSync() || _sha256(file.readAsBytesSync()) != expected) {
       final uri = downloadUri(crateHash, triple);
       final bytes = await download(uri);
@@ -120,15 +125,18 @@ class PrebuiltLibrary {
         ..renameSync(file.path);
     }
 
-    output.assets.code.add(CodeAsset(
-      package: input.packageName,
-      name: assetName,
-      linkMode: DynamicLoadingBundled(),
-      file: file.uri,
-    ));
+    output.assets.code.add(
+      CodeAsset(
+        package: input.packageName,
+        name: assetName,
+        linkMode: DynamicLoadingBundled(),
+        file: file.uri,
+      ),
+    );
   }
 
-  String get _buildFromSourceYaml => '''
+  String get _buildFromSourceYaml =>
+      '''
 hooks:
   user_defines:
     $package:
@@ -163,27 +171,30 @@ String? targetTriple(CodeConfig code) =>
   String relative(File f) =>
       f.path.substring(crate.path.length + 1).replaceAll(r'\', '/');
 
-  final files = crate
-      .listSync(recursive: true, followLinks: false)
-      .whereType<File>()
-      .where((f) => !relative(f)
-          .split('/')
-          .any((part) => part == 'target' || part.startsWith('.')))
-      .toList()
-    ..sort((a, b) => relative(a).compareTo(relative(b)));
+  final files =
+      crate
+          .listSync(recursive: true, followLinks: false)
+          .whereType<File>()
+          .where(
+            (f) => !relative(f)
+                .split('/')
+                .any((part) => part == 'target' || part.startsWith('.')),
+          )
+          .toList()
+        ..sort((a, b) => relative(a).compareTo(relative(b)));
 
   final manifest = StringBuffer();
   for (final file in files) {
     manifest.writeln(
-        '${relative(file)} ${_sha256(_withoutCr(file.readAsBytesSync()))}');
+      '${relative(file)} ${_sha256(_withoutCr(file.readAsBytesSync()))}',
+    );
   }
   final hash = _sha256(utf8.encode(manifest.toString())).substring(0, 16);
   return (hash, files);
 }
 
 Future<Uint8List> download(Uri uri) async {
-  final client = HttpClient()
-    ..findProxy = HttpClient.findProxyFromEnvironment;
+  final client = HttpClient()..findProxy = HttpClient.findProxyFromEnvironment;
   try {
     final response = await (await client.getUrl(uri)).close();
     if (response.statusCode != HttpStatus.ok) {
@@ -200,7 +211,7 @@ Future<Uint8List> download(Uri uri) async {
 String _sha256(List<int> bytes) => sha256.convert(bytes).toString();
 
 List<int> _withoutCr(Uint8List bytes) => [
-      for (var i = 0; i < bytes.length; i++)
-        if (!(bytes[i] == 13 && i + 1 < bytes.length && bytes[i + 1] == 10))
-          bytes[i],
-    ];
+  for (var i = 0; i < bytes.length; i++)
+    if (!(bytes[i] == 13 && i + 1 < bytes.length && bytes[i + 1] == 10))
+      bytes[i],
+];
