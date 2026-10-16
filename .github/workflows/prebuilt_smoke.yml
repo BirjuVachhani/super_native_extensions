@@ -46,6 +46,9 @@ jobs:
       # packages in this repo instead of pub.dev.
       - name: Melos Bootstrap
         run: |
+          # Fetch the irondash git dependency once up front; bootstrap's
+          # parallel `pub get`s otherwise race to check it out into the cache.
+          (cd super_native_extensions && flutter pub get)
           dart pub global activate melos
           dart pub global run melos bootstrap
       - working-directory: super_clipboard/example
