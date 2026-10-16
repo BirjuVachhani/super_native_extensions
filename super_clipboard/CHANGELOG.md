@@ -1,3 +1,9 @@
+## 0.10.0-dev.3
+
+ - **FIX**: keep clipboard event listeners per instance in sets, so a listener registered more than once is only called once (#507).
+ - Update `super_native_extensions` to `0.10.0-dev.3`, which uses prebuilt native binaries.
+ - Bump "super_clipboard" to `0.10.0-dev.3`.
+
 ## 0.10.0-dev.2
 
  - Bump "super_clipboard" to `0.10.0-dev.2`.

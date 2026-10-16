@@ -1,3 +1,10 @@
+## 0.10.0-dev.3
+
+ - **FEAT**: use prebuilt native binaries by default. The build hook downloads the library for the build target from this repository's GitHub release and verifies its SHA-256 checksum, so apps no longer need a Rust toolchain.
+ - **FEAT**: add the `build_from_source` user define to compile the Rust crate instead.
+ - Depend on the `irondash_engine_context` fork, which ships prebuilt Android binaries. Because of the git dependency the package is marked `publish_to: none`.
+ - Bump "super_native_extensions" to `0.10.0-dev.3`.
+
 ## 0.10.0-dev.2
 
  - Bump "super_native_extensions" to `0.10.0-dev.2`.

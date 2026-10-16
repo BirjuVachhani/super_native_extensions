@@ -3,6 +3,61 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 2026-10-16
+
+### Changes
+
+---
+
+Packages with breaking changes:
+
+ - There are no breaking changes in this release.
+
+Packages with other changes:
+
+ - [`super_clipboard` - `v0.10.0-dev.3`](#super_clipboard---v0100-dev3)
+ - [`super_drag_and_drop` - `v0.10.0-dev.3`](#super_drag_and_drop---v0100-dev3)
+ - [`super_context_menu` - `v0.10.0-dev.3`](#super_context_menu---v0100-dev3)
+ - [`super_native_extensions` - `v0.10.0-dev.3`](#super_native_extensions---v0100-dev3)
+ - [`super_hot_key` - `v0.10.0-dev.3`](#super_hot_key---v0100-dev3)
+ - [`super_keyboard_layout` - `v0.10.0-dev.3`](#super_keyboard_layout---v0100-dev3)
+
+---
+
+#### `super_clipboard` - `v0.10.0-dev.3`
+
+ - **FIX**: keep clipboard event listeners per instance in sets, so a listener registered more than once is only called once (#507).
+ - Update `super_native_extensions` to `0.10.0-dev.3`, which uses prebuilt native binaries.
+ - Bump "super_clipboard" to `0.10.0-dev.3`.
+
+#### `super_drag_and_drop` - `v0.10.0-dev.3`
+
+ - Update `super_native_extensions` to `0.10.0-dev.3`, which uses prebuilt native binaries.
+ - Bump "super_drag_and_drop" to `0.10.0-dev.3`.
+
+#### `super_context_menu` - `v0.10.0-dev.3`
+
+ - Update `super_native_extensions` to `0.10.0-dev.3`, which uses prebuilt native binaries.
+ - Bump "super_context_menu" to `0.10.0-dev.3`.
+
+#### `super_native_extensions` - `v0.10.0-dev.3`
+
+ - **FEAT**: use prebuilt native binaries by default. The build hook downloads the library for the build target from this repository's GitHub release and verifies its SHA-256 checksum, so apps no longer need a Rust toolchain.
+ - **FEAT**: add the `build_from_source` user define to compile the Rust crate instead.
+ - Depend on the `irondash_engine_context` fork, which ships prebuilt Android binaries. Because of the git dependency the package is marked `publish_to: none`.
+ - Bump "super_native_extensions" to `0.10.0-dev.3`.
+
+#### `super_hot_key` - `v0.10.0-dev.3`
+
+ - Update `super_native_extensions` to `0.10.0-dev.3`, which uses prebuilt native binaries.
+ - Bump "super_hot_key" to `0.10.0-dev.3`.
+
+#### `super_keyboard_layout` - `v0.10.0-dev.3`
+
+ - Update `super_native_extensions` to `0.10.0-dev.3`, which uses prebuilt native binaries.
+ - Bump "super_keyboard_layout" to `0.10.0-dev.3`.
+
+
 ## 2026-08-07
 
 ### Changes

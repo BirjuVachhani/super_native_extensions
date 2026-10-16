@@ -1,3 +1,8 @@
+## 0.10.0-dev.3
+
+ - Update `super_native_extensions` to `0.10.0-dev.3`, which uses prebuilt native binaries.
+ - Bump "super_context_menu" to `0.10.0-dev.3`.
+
 ## 0.10.0-dev.2
 
  - Bump "super_context_menu" to `0.10.0-dev.2`.
