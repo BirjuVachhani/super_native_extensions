@@ -42,5 +42,11 @@ jobs:
       - uses: subosito/flutter-action@v2
         with:
           channel: stable
+      # Writes the pubspec_overrides.yaml files that point the example at the
+      # packages in this repo instead of pub.dev.
+      - name: Melos Bootstrap
+        run: |
+          dart pub global activate melos
+          dart pub global run melos bootstrap
       - working-directory: super_clipboard/example
         run: flutter build ${{ matrix.target }} --debug
