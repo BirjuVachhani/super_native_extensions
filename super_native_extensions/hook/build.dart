@@ -1,11 +1,37 @@
 import 'package:hooks/hooks.dart';
-import 'package:native_toolchain_rust/native_toolchain_rust.dart';
+
+import 'prebuilt.dart';
+import 'prebuilt.g.dart';
+
+const library = PrebuiltLibrary(
+  package: 'super_native_extensions',
+  assetName: 'super_native_extensions_native',
+  cratePath: 'rust',
+  libName: 'super_native_extensions_native',
+  repo: 'BirjuVachhani/super_native_extensions',
+  triples: [
+    'aarch64-linux-android',
+    'armv7-linux-androideabi',
+    'x86_64-linux-android',
+    'aarch64-apple-ios',
+    'aarch64-apple-ios-sim',
+    'x86_64-apple-ios',
+    'aarch64-apple-darwin',
+    'x86_64-apple-darwin',
+    'aarch64-pc-windows-msvc',
+    'x86_64-pc-windows-msvc',
+    'aarch64-unknown-linux-gnu',
+    'x86_64-unknown-linux-gnu',
+  ],
+);
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    await const RustBuilder(
-      assetName: 'super_native_extensions_native',
-      cratePath: 'rust',
-    ).run(input: input, output: output);
+    await library.run(
+      input,
+      output,
+      crateHash: prebuiltCrateHash,
+      sha256s: prebuiltSha256,
+    );
   });
 }

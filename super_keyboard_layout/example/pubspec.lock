@@ -147,10 +147,11 @@ packages:
   irondash_engine_context:
     dependency: transitive
     description:
-      name: irondash_engine_context
-      sha256: eccd423b2e6b821338fc3c0bf4d12192cff7a4a3f5c66c6abc704f25aa3886b1
-      url: "https://pub.dev"
-    source: hosted
+      path: "engine_context/dart"
+      ref: aaa5ae93ce282540858f350ce4a3e41ec77b186a
+      resolved-ref: aaa5ae93ce282540858f350ce4a3e41ec77b186a
+      url: "https://github.com/BirjuVachhani/irondash.git"
+    source: git
     version: "0.6.0-dev.0"
   irondash_message_channel:
     dependency: transitive
@@ -331,14 +332,14 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.9.1"
+    version: "0.10.0-dev.2"
   super_native_extensions:
     dependency: "direct overridden"
     description:
       path: "../../super_native_extensions"
       relative: true
     source: path
-    version: "0.9.1"
+    version: "0.10.0-dev.2"
   term_glyph:
     dependency: transitive
     description:

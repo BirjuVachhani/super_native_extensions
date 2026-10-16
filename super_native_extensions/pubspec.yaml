@@ -2,6 +2,8 @@ name: super_native_extensions
 description: Low level interface various native APIs such as clipboard and Drag and Drop. Not meant to be used directly.
 version: 0.10.0-dev.2
 homepage: https://github.com/superlistapp/super_native_extensions
+# Depends on a git fork of irondash_engine_context; consumed via git.
+publish_to: none
 
 environment:
   sdk: ^3.10.0-0
@@ -17,9 +19,16 @@ dependencies:
   collection: ^1.16.0
   path: ^1.8.2
   uuid: ^4.1.0
+  code_assets: ^1.2.1
+  crypto: ^3.0.0
   hooks: ^2.0.2
   native_toolchain_rust: ^1.0.4+0
-  irondash_engine_context: ^0.6.0-dev.0
+  # Fork with prebuilt Android binaries instead of a Rust build.
+  irondash_engine_context:
+    git:
+      url: https://github.com/BirjuVachhani/irondash.git
+      path: engine_context/dart
+      ref: aaa5ae93ce282540858f350ce4a3e41ec77b186a
   irondash_message_channel: ^0.8.0-dev.0
   device_info_plus: ">=10.0.1 <14.0.0"
   pixel_snap: ^0.1.2

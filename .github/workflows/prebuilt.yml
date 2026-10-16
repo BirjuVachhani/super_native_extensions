@@ -1,0 +1,137 @@
+on:
+  push:
+    branches: [main]
+    paths:
+      - super_native_extensions/rust/**
+      - .github/workflows/prebuilt.yml
+  workflow_dispatch:
+
+name: Prebuilt Binaries
+
+# Builds the native library for every target and publishes it as a GitHub
+# release tagged with the hash of the Rust sources. Afterwards run
+# `tool/prebuilt.dart sync` locally and commit hook/prebuilt.g.dart.
+
+permissions:
+  contents: read
+
+env:
+  PACKAGE_DIR: super_native_extensions
+  CRATE_DIR: super_native_extensions/rust
+  LIB_NAME: super_native_extensions_native
+
+jobs:
+  Tag:
+    runs-on: ubuntu-latest
+    outputs:
+      tag: ${{ steps.tag.outputs.tag }}
+      exists: ${{ steps.tag.outputs.exists }}
+    steps:
+      - uses: actions/checkout@v7
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+      - id: tag
+        working-directory: ${{ env.PACKAGE_DIR }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          flutter pub get
+          tag=$(dart --packages=.dart_tool/package_config.json tool/prebuilt.dart tag)
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          if gh release view "$tag" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            echo "Release $tag already exists; nothing to build."
+            echo "exists=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  Build:
+    needs: Tag
+    if: needs.Tag.outputs.exists != 'true'
+    name: Build ${{ matrix.triple }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - { triple: aarch64-linux-android, os: ubuntu-latest }
+          - { triple: armv7-linux-androideabi, os: ubuntu-latest }
+          - { triple: x86_64-linux-android, os: ubuntu-latest }
+          - { triple: aarch64-apple-ios, os: macos-latest }
+          - { triple: aarch64-apple-ios-sim, os: macos-latest }
+          - { triple: x86_64-apple-ios, os: macos-latest }
+          - { triple: aarch64-apple-darwin, os: macos-latest }
+          - { triple: x86_64-apple-darwin, os: macos-latest }
+          - { triple: aarch64-pc-windows-msvc, os: windows-latest }
+          - { triple: x86_64-pc-windows-msvc, os: windows-latest }
+          # Oldest available Ubuntu, so the libraries need only an old glibc.
+          - { triple: aarch64-unknown-linux-gnu, os: ubuntu-22.04-arm }
+          - { triple: x86_64-unknown-linux-gnu, os: ubuntu-22.04 }
+    defaults:
+      run:
+        shell: bash
+    env:
+      TRIPLE: ${{ matrix.triple }}
+    steps:
+      - uses: actions/checkout@v7
+      - name: Install GTK
+        if: contains(matrix.triple, 'linux-gnu')
+        run: sudo apt-get update && sudo apt-get install -y libgtk-3-dev
+      - name: Install rustup
+        run: |
+          if ! command -v rustup > /dev/null; then
+            curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs | sh -s -- -y --default-toolchain none
+            echo "$HOME/.cargo/bin" >> "$GITHUB_PATH"
+          fi
+      - name: Configure Android NDK
+        if: contains(matrix.triple, 'android')
+        run: |
+          grep Pkg.Revision "$ANDROID_NDK_LATEST_HOME/source.properties"
+          bin="$ANDROID_NDK_LATEST_HOME/toolchains/llvm/prebuilt/linux-x86_64/bin"
+          # Link against API 24 (the plugin's minSdk) so the library loads on
+          # every supported device.
+          clang="$bin/${TRIPLE/armv7/armv7a}24-clang"
+          var=${TRIPLE//-/_}
+          {
+            echo "CC_$var=$clang"
+            echo "AR_$var=$bin/llvm-ar"
+            echo "CARGO_TARGET_${var^^}_LINKER=$clang"
+          } >> "$GITHUB_ENV"
+      - name: Build
+        working-directory: ${{ env.CRATE_DIR }}
+        run: |
+          rustup toolchain install
+          cargo build --release --target "$TRIPLE"
+          case "$TRIPLE" in
+            *windows*) file="$LIB_NAME.dll" ;;
+            *apple*) file="lib$LIB_NAME.dylib" ;;
+            *) file="lib$LIB_NAME.so" ;;
+          esac
+          mkdir -p "$GITHUB_WORKSPACE/dist"
+          cp "target/$TRIPLE/release/$file" "$GITHUB_WORKSPACE/dist/$TRIPLE-$file"
+      - uses: actions/upload-artifact@v7
+        with:
+          name: ${{ matrix.triple }}
+          path: dist/*
+          if-no-files-found: error
+
+  Release:
+    needs: [Tag, Build]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v8
+        with:
+          path: dist
+          merge-multiple: true
+      - env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ needs.Tag.outputs.tag }}
+        run: |
+          ls -l dist
+          gh release create "$TAG" dist/* \
+            --repo "$GITHUB_REPOSITORY" \
+            --target "$GITHUB_SHA" \
+            --title "$TAG" \
+            --latest=false \
+            --notes "Prebuilt native libraries built from $GITHUB_SHA."
